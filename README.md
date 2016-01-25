@@ -9,7 +9,7 @@ R CMD build --no-build-vignettes kinship2
 R CMD INSTALL kinship2
 ```
  
- # Added functions
+# Additional functions
  
  ```R
  read.pedigree
