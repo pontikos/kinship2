@@ -5,6 +5,6 @@ Fork of  a read-only mirror of the CRAN R package repository.  kinship2
 This is a fork of the cran kinship2 package extended with additional pedigree functions.
 
 ```
-R CMD build --no-build-vignettes
-R CMD INSTALL
+R CMD build --no-build-vignettes kinship2
+R CMD INSTALL kinship2
 ```
