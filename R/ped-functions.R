@@ -277,12 +277,12 @@ check.both.parents <- function(ped) {
         ind <- ped[id,]
         Father <- ind[['Father']]
         Mother <- ind[['Mother']]
-        if ( is.founder(id,ped) ) return(TRUE)
+        if ( is.founder2(id,ped) ) return(TRUE)
         else return(  (Father %in% ped$ID) & (Mother %in% ped$ID) )
         }) )
 }
 
-is.founder <- function(ID,ped) {
+is.founder2 <- function(ID,ped) {
     rownames(ped) <- ped$ID
     if (is.na(ID)) return(NA)
     ind <- ped[ID,]
@@ -291,9 +291,10 @@ is.founder <- function(ID,ped) {
     #return(is.na(Father) & is.na(Mother))
     return((!Father %in% ped$ID) & (!Mother %in% ped$ID))
 }
-check.is.founder <- function(ped) {
+
+check.is.founder2 <- function(ped) {
     rownames(ped) <- ped$ID
-    return( sapply(ped$ID, function(id) is.founder(id,ped)) )
+    return( sapply(ped$ID, function(id) is.founder2(id,ped)) )
 }
 
 #orphans have no parents AND are not parents to anyone
@@ -380,7 +381,7 @@ set.spouse <- function(ped) {
 }
 
 set.founder <- function(ped) {
-    ped$founder <- sapply(ped$ID, function(id) is.founder(id,ped))
+    ped$founder <- sapply(ped$ID, function(id) is.founder2(id,ped))
     return(ped)
 }
 
@@ -388,7 +389,7 @@ set.genereration <- function(ped) {
     rownames(ped) <- ped$ID
     ped$Generation <- NA
     ped$Generation <- sapply(ped$ID, function(id) get.generation(id,ped))
-    ped$Generation <- sapply(ped$ID, function(id) if (is.founder(id,ped)) return(ped[get.spouse(id,ped),'Generation']) else return(ped[id,'Generation']))
+    ped$Generation <- sapply(ped$ID, function(id) if (is.founder2(id,ped)) return(ped[get.spouse(id,ped),'Generation']) else return(ped[id,'Generation']))
     return(ped)
 }
 
@@ -481,7 +482,7 @@ ME.check <- function(ped, d, fix=FALSE) {
 
 # not finished
 random.walk <- function(ped,nbits=40,id=sample(ped$ID,1)) {
-     if (is.founder(ped=ped,ID=ID)) nbits <- nbits-1
+     if (is.founder2(ped=ped,ID=ID)) nbits <- nbits-1
      else nbits <- nbits+2
     spouse <- get.spouse(ped=ped,ID=id)
     children <- get.children(ped=ped,ID=id)
@@ -554,8 +555,8 @@ dominant.variant <- function(ped) {
     # founders of affected must bring in the variant
     for (id in ped[which(ped$Affection==2),'ID']) {
         ped[id,'dominant.variant']<-1
-        # if is founder then continue
-        if (is.founder(id,ped)) next
+        # if is.founder2 then continue
+        if (is.founder2(id,ped)) next
         # if one of the parents already has the variant then continue
         p <- get.parents(id,ped)
         if (sum(ped[p$ID,'dominant.variant'])>0) next
@@ -578,12 +579,12 @@ dominant.rare.variant <- function(ped) {
         ped[id,'dominant.variant']<-1
         # variant needs to propagate up to root
         while(TRUE) {
-        # if is founder then break
-        if (is.founder(id,ped)) break
+        # if is.founder2 then break
+        if (is.founder2(id,ped)) break
         p <- get.parents(id,ped)
         # if both parents are founders then break
         # this should only happen once we reach the root of the pedigree
-        if (is.founder(p[1,'ID'],ped) & is.founder(p[2,'ID'],ped)) break
+        if (is.founder2(p[1,'ID'],ped) & is.founder2(p[2,'ID'],ped)) break
         # assign variant to non-founder parent
         parent.id <- get.non.founder(id,ped)[,'ID']
         ped[parent.id,'dominant.variant']<-1
