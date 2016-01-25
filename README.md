@@ -9,10 +9,12 @@ R CMD build --no-build-vignettes kinship2
 R CMD INSTALL kinship2
 ```
  
+ # Added functions
+ 
  ```R
  read.pedigree
  ```
- expects
+ expects a CSV file with at least the following headers:
  
  ```
  "ID","Family","Father","Mother","Gender","Affection"
