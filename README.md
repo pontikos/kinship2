@@ -8,3 +8,14 @@ This is a fork of the cran kinship2 package extended with additional pedigree fu
 R CMD build --no-build-vignettes kinship2
 R CMD INSTALL kinship2
 ```
+ 
+ # Added functions
+ 
+ ```R
+ read.pedigree
+ ```
+ expects a CSV file with at least the following headers:
+ 
+ ```
+ "ID","Family","Father","Mother","Gender","Affection"
+ ```
