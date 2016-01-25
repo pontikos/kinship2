@@ -292,7 +292,7 @@ is.founder2 <- function(ID,ped) {
     return((!Father %in% ped$ID) & (!Mother %in% ped$ID))
 }
 
-check.is.founder2 <- function(ped) {
+check.is.founder <- function(ped) {
     rownames(ped) <- ped$ID
     return( sapply(ped$ID, function(id) is.founder2(id,ped)) )
 }
