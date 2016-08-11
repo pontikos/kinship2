@@ -11,6 +11,8 @@ R CMD INSTALL kinship2
  
 # Additional functions
  
+ Are in file ```pedigree-functions.R```
+ 
  ```R
  read.pedigree
  ```
